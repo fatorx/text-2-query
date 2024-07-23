@@ -91,6 +91,12 @@ $ source /tmp/scripts/schema.sql
 $ source /tmp/scripts/data.sql
 ```
 
+After setting up the database connection, run the following script:
+
+```bash
+$ docker exec -it api python /api/scripts/vanna_mysql_training.py
+```
+
 ------
 
 ### Testing via CLI
