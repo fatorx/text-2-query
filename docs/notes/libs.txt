@@ -1,0 +1,21 @@
+pip install transformers torch
+
+docker exec -it api pip install transformers torch
+docker exec -it api pip install transformers torch
+docker exec -it api pip install 'vanna[gemini,mysql]'
+
+
+docker compose -f docker-compose-dev.yaml down
+docker compose -f docker-compose-dev.yaml up -d
+docker exec -it api /usr/sbin/sshd
+
+
+Questions:
+What are the 5 best-selling products?
+ select p.product_name, sum(od.quantity) as total_sold
+from products p
+join order_details od on p.id = od.product_id
+group by p.product_name
+order by total_sold desc
+limit 5;
+

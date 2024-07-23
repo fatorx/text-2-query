@@ -1,0 +1,45 @@
+
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ${DOCKER_FILE}
+    working_dir: /api
+    volumes:
+      - ./:/api
+    restart: on-failure
+    command: uvicorn app.main:app --workers 1 --host 0.0.0.0 --port 8000 --reload
+    env_file:
+      - .env
+    ports:
+      - "8003:8000"
+      - "22:22"
+
+  storage.mysql:
+    container_name: storage-mysql
+    platform: linux/x86_64
+    image: mysql:8.0.33
+    env_file:
+      - .env
+    volumes:
+      - ./build/data/mysql:/var/lib/mysql
+      - ./scripts/:/tmp/scripts/
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=northwind
+    ports:
+      - "3308:3306"
+
+  storage.redis:
+    image: redis:alpine
+    container_name: storage-redis
+
+  storage.adminredis:
+    image: erikdubbelboer/phpredisadmin
+    container_name: storage-adminredis
+    environment:
+      - REDIS_1_HOST=storage.redis
+      - REDIS_1_NAME=MyRedis
+    ports:
+      - "8091:80"

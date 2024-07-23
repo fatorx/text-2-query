@@ -1,0 +1,16 @@
+1. Quais são os produtos mais populares entre os clientes corporativos?
+2. Quais são os produtos mais vendidos em termos de quantidade?
+3. Qual é o volume de vendas por cidade?
+4. Quais são os clientes que mais compraram?
+5. Quais são os produtos mais caros da loja?
+6. Quais são os fornecedores mais frequentes nos pedidos?
+7. Quais os melhores vendedores?
+8. Qual é o valor total de todas as vendas realizadas por ano?
+9. Qual é o valor total de vendas por categoria de produto?
+10. Qual o ticket médio por compra?
+
+What are the 5 best-selling products and how many sales were made for each product?
+
+What are the 5 best-selling products, with the number of sales for each product and the sum of the values?
+
+What are the 5 least-selling products, with the number of sales for each product and the sum of the values?

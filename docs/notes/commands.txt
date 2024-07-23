@@ -1,0 +1,4 @@
+
+docker exec -it api python /api/scripts/vanna_mysql_training.py
+docker exec -it api python scripts/execute.py "What are the top 10 customers by sales ? (Include the customer's full name)"
+docker exec -it api python scripts/vanna_mysql_question.py "What are the top 10 customers by sales ? (Include the customer's full name)"
