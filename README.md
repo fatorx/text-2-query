@@ -35,6 +35,7 @@ In Vanna platform, create a new model, which will be used in the configuration (
 
 Create a build/mysql folder, to hold a volume for the database.
 ```bash
+$ mkdir build
 $ mkdir build/mysql
 $ chmod -R 777 build/mysql
 ```
