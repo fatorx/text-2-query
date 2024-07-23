@@ -84,7 +84,7 @@ $ docker exec -it api python scripts/vanna_mysql_question.py \
 
 ### Access documentation
 
-The api will be up at http://0.0.0.0:8003, with access to API methods in OpenAPI format.
+In the browser, access http://0.0.0.0:8003, for access to API methods in OpenAPI format.
 
 ------
 

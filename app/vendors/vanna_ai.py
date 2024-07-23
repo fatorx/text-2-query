@@ -40,7 +40,9 @@ class VannaAI:
             raise HTTPException(status_code=400, detail=Messages.FAILURE_PROCESS)
 
     def extract_sql_query(self, response_command: str) -> str:
-        # Couldn't run sql
+        not_valid_sql = "Couldn't run sql"
+        if response_command.__contains__(not_valid_sql):
+            raise HTTPException(status_code=400, detail=Messages.INVALID_RESPONSE)
 
         separator_string = "LLM Response: "
         if response_command.__contains__("Extracted SQL: "):

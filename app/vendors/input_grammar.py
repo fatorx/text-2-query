@@ -5,7 +5,7 @@ class MessageGrammar:
     EN_CORE: str = "en_core_web_sm"
 
     def __init__(self):
-        self.nlp = spacy.load("en_core_web_sm")
+        self.nlp = spacy.load(self.EN_CORE)
 
     def check_syntax(self, text) -> bool:
         doc = self.nlp(text)

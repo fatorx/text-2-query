@@ -1,4 +1,3 @@
-
 class Messages:
     NOT_FINISH_PROCESS: str = 'Processo não finalizado.'
     FAILURE_PROCESS: str = 'Houve uma falha no processo.'

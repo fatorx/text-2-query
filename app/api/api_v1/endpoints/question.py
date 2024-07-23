@@ -16,13 +16,14 @@ async def get_language_model_service():
     return await service_factory.create_language_model()
 
 
-@router.post("/",
-             response_model=ModelResponseSerializer,
-             summary="Creates a sql query based on a statement or question.",
-             status_code=200,
-             tags=["text2sql"])
-async def send(input_model: InputModel,
-               service: LanguageModelService = Depends(get_language_model_service)):
+@router.post(
+    "/",
+    response_model=ModelResponseSerializer,
+    summary="Creates a sql query based on a statement or question.",
+    status_code=200,
+    tags=["text2sql"]
+)
+async def send(input_model: InputModel, service: LanguageModelService = Depends(get_language_model_service)):
     """
         Receives a question and processes its contents to form an SQL query, based on an analysis of your requirements.
         \n\n
