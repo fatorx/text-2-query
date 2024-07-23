@@ -6,6 +6,7 @@ from starlette import status
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from app.vendors.vanna_ai import VannaAI
 
+
 class LanguageModelService:
 
     def __init__(self, process_model: VannaAI):

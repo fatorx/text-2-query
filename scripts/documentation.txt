@@ -1,0 +1,2 @@
+Our business is an e-commerce business that sells various types of products. We have various configurations, such as fees and retail prices.
+We have suppliers, customers and employees, interacting to make the operation viable.

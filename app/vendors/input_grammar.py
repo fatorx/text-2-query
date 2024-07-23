@@ -11,7 +11,5 @@ class MessageGrammar:
         doc = self.nlp(text)
         grammar_tags = {"VERB", "AUX", "ADP", "ADV"}
         items = [token.text for token in doc if token.pos_ in grammar_tags]
-        print("check_syntax")
-        print(items)
-        print(self.nlp)
+
         return len(items) > 0
