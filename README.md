@@ -35,8 +35,7 @@ In Vanna platform, create a new model, which will be used in the configuration (
 
 Create a build/mysql folder, to hold a volume for the database.
 ```bash
-$ mkdir build
-$ mkdir build/mysql
+$ mkdir -t build/mysql
 $ chmod -R 777 build/mysql
 ```
 
@@ -62,6 +61,11 @@ $ docker exec -it api pytest
 ```
 
 If there are any failures in the tests, it is necessary to run the script below:
+
+```bash
+$ chmod +x commit.sh
+```
+
 ```bash
 $ ./commit.sh
 ```
@@ -70,6 +74,21 @@ $ ./commit.sh
 
 ```bash
 $ docker compose up -d
+```
+
+Create tables in an Access database (named "northwind_test" as specified in your .env configuration file). This is ideal for local testing.
+```bash
+$ docker exec -it api mysql -u root -p -D northwind_test
+```
+
+After access the docker with above command, at the MySQL prompt type:
+
+```bash
+$ source /tmp/scripts/schema.sql
+```
+
+```bash
+$ source /tmp/scripts/data.sql
 ```
 
 ------
