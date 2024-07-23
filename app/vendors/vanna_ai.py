@@ -57,7 +57,7 @@ class VannaAI:
 
             return sql_query_result.replace('\n', ' ')
 
-        return ''
+        return None
 
     async def process_input(self, input_text: str) -> str:
 

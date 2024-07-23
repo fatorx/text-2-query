@@ -5,7 +5,6 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 class HuggingFaceTranslator:
     PT_EN_T5: str = "unicamp-dl/translation-pt-en-t5"
-    response_string: str = ""
 
     def __init__(self):
         self.tokenizer = AutoTokenizer.from_pretrained(self.PT_EN_T5)

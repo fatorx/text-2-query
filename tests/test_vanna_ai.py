@@ -1,4 +1,5 @@
 import pytest
+import subprocess
 from unittest.mock import patch, Mock
 from fastapi import HTTPException
 
@@ -48,20 +49,21 @@ async def test_script_not_found(vanna_ai):
         assert exc_info.value.detail == Messages.FAILURE_PROCESS
 
 
-# async def test_subprocess_error(vanna_ai):
-#     """Test when subprocess.run raises a CalledProcessError."""
-#     with patch("subprocess.run", side_effect=subprocess.CalledProcessError(1, "command")):
-#         with pytest.raises(HTTPException) as exc_info:
-#             await vanna_ai.process_input("input_text")
-#         assert exc_info.value.status_code == 400
-#         assert exc_info.value.detail == Messages.FAILURE_PROCESS
+async def test_subprocess_error(vanna_ai):
+    """Test when subprocess.run raises a CalledProcessError."""
+    with patch("subprocess.run", side_effect=subprocess.CalledProcessError(1, "command")):
+        with pytest.raises(HTTPException) as exc_info:
+            await vanna_ai.process_input("input_text")
+        assert exc_info.value.status_code == 400
+        assert exc_info.value.detail == Messages.FAILURE_PROCESS
 
 
-# async def test_no_sql_extracted(vanna_ai):
-#     """Test when the script output doesn't contain the SQL query."""
-#     with patch("subprocess.run") as mock_run:
-#         mock_run.return_value = Mock(stdout="Invalid output")
-#         with pytest.raises(HTTPException) as exc_info:
-#             await vanna_ai.process_input("input_text")
-#         assert exc_info.value.status_code == 400
-#         assert exc_info.value.detail == Messages.INVALID_RESPONSE
+async def test_no_sql_extracted(vanna_ai):
+    """Test when the script output doesn't contain the SQL query."""
+    with patch("subprocess.run") as mock_run:
+        mock_run.return_value = Mock(stdout="")
+        with pytest.raises(HTTPException) as exc_info:
+            await vanna_ai.process_input("input_text")
+
+        assert exc_info.value.status_code == 400
+        assert exc_info.value.detail == Messages.INVALID_RESPONSE
