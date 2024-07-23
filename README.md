@@ -72,7 +72,21 @@ $ ./commit.sh
 $ docker compose up -d
 ```
 
+------
+
+### Testing via CLI
+```bash
+$ docker exec -it api python scripts/vanna_mysql_question.py \
+    "What are the top 10 customers by sales ? (Include the customer's full name)"
+```
+
+------
+
+### Access documentation
+
 The api will be up at http://0.0.0.0:8003, with access to API methods in OpenAPI format.
+
+------
 
 ### Running tests
 
