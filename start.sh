@@ -5,6 +5,8 @@ sed -i 's/^DOCKER_FILE=.*$/DOCKER_FILE=Dockerfile/' "$ENV_FILE"
 docker compose down
 docker compose up -d --build
 docker exec -it api pip install transformers torch
+docker exec -it api pip uninstall spacy thinc -y
+docker exec -it api pip install spacy thinc
 
 # Commit the updates of the container
 container_id=$(docker ps -q --filter "name=api")
