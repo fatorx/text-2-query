@@ -35,41 +35,49 @@ class TestVannaAI(unittest.TestCase):
         self.assertEqual(result, "SELECT * FROM products")
         loop.close()
 
-    # @patch('subprocess.run', side_effect=mock_subprocess_run)
-    # def test_process_input_invalid_instruction(self, mock_run):
-    #     with self.assertRaises(HTTPException) as cm:
-    #         self.vanna_ai.process_input("Esta não é uma instrução válida")
-    #     self.assertEqual(cm.exception.detail, Messages.INVALID_INSTRUCTION)
-    #
-    # @patch('subprocess.run', side_effect=FileNotFoundError)
-    # def test_process_input_script_not_found(self, mock_run):
-    #     with self.assertRaises(HTTPException) as cm:
-    #         self.vanna_ai.process_input("Qualquer pergunta")
-    #     self.assertEqual(cm.exception.detail, Messages.FAILURE_PROCESS)
-    #
-    # @patch('subprocess.run')
-    # def test_process_input_invalid_response(self, mock_run):
-    #     # Simulate a response without a valid SQL query
-    #     mock_run.return_value.stdout = b"LLM Response: Couldn't run sql"
-    #     with self.assertRaises(HTTPException) as cm:
-    #         self.vanna_ai.process_input("Qualquer pergunta")
-    #     self.assertEqual(cm.exception.detail, Messages.INVALID_RESPONSE)
-    #
-    # @patch('subprocess.run')
-    # def test_extract_sql_query(self, mock_run):
-    #     # Test with different response formats
-    #     test_cases = [
-    #         ("LLM Response: Some response\nExtracted SQL: SELECT * FROM products", "SELECT * FROM products"),
-    #         ("Extracted SQL: SELECT name FROM users", "SELECT name FROM users"),
-    #         ("LLM Response: Couldn't run sql", None),
-    #         ("Invalid response", None)
-    #     ]
-    #
-    #     for response, expected_sql in test_cases:
-    #         mock_run.return_value.stdout = response.encode()
-    #         sql_query = self.vanna_ai.extract_sql_query(response)
-    #         self.assertEqual(sql_query, expected_sql)
+    @patch('subprocess.run', side_effect=mock_subprocess_run)
+    def test_process_input_invalid_instruction(self, mock_run):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        with self.assertRaises(HTTPException) as cm:
+            loop.run_until_complete(self.vanna_ai.process_input("--"))
+        self.assertEqual(cm.exception.detail, Messages.INVALID_INSTRUCTION)
+        loop.close()
 
+    @patch('subprocess.run', side_effect=FileNotFoundError)
+    def test_process_input_script_not_found(self, mock_run):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        with self.assertRaises(HTTPException) as cm:
+            loop.run_until_complete(self.vanna_ai.process_input("Qualquer pergunta"))
+        self.assertEqual(cm.exception.detail, Messages.FAILURE_PROCESS)
+        loop.close()
 
-if __name__ == '__main__':
-    unittest.main()
+    @patch('subprocess.run')
+    def test_process_input_invalid_response(self, mock_run):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        # Simulate a response without a valid SQL query
+        mock_run.return_value.stdout = b"LLM Response: Couldn't run sql"
+        with self.assertRaises(HTTPException) as cm:
+            loop.run_until_complete(self.vanna_ai.process_input("Qualquer pergunta"))
+        self.assertEqual(cm.exception.detail, Messages.INVALID_RESPONSE)
+        loop.close()
+
+    @patch('subprocess.run')
+    def test_extract_sql_query(self, mock_run):
+
+        test_cases = [
+            ("LLM Response: Some response\nExtracted SQL: SELECT * FROM products", "SELECT * FROM products"),
+            ("Extracted SQL: SELECT name FROM users", "SELECT name FROM users"),
+            ("LLM Response: Couldn't run sql", None),
+            ("Invalid response", None)
+        ]
+
+        with self.assertRaises(HTTPException) as cm:
+            for response, expected_sql in test_cases:
+                mock_run.return_value.stdout = response.encode()
+                sql_query = self.vanna_ai.extract_sql_query(response)
+                self.assertEqual(sql_query, expected_sql)
+
+        self.assertEqual(cm.exception.detail, Messages.INVALID_RESPONSE)
