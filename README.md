@@ -60,12 +60,6 @@ Run the tests to verify that the installation completed successfully.
 $ docker exec -it api pytest
 ```
 
-If there are any failures in the tests, it is necessary to run the script below:
-
-```bash
-$ chmod +x commit.sh
-```
-
 ```bash
 $ ./commit.sh
 ```

@@ -2,17 +2,14 @@ import subprocess
 
 from fastapi import HTTPException
 
-from app.vendors.huggingface_translate import HuggingFaceTranslator
-from app.vendors.input_grammar import MessageGrammar
 from app.messages.messages import Messages
-
+from app.vendors.translate import Translate
 
 class VannaAI:
     PATH_SCRIPT: str = '/api/scripts/vanna_mysql_question.py'
 
-    def __init__(self, translator: HuggingFaceTranslator, message_grammar: MessageGrammar):
+    def __init__(self, translator: Translate):
         self.translator = translator
-        self.message_grammar = message_grammar
 
     def execute_python_script(self, script_path, arguments=None) -> str:
         command = ["python", script_path]
@@ -55,15 +52,16 @@ class VannaAI:
             if sql_query_result.startswith('`sql') and sql_query_result.endswith('`'):
                 sql_query_result = sql_query_result[5:-3]
 
+            sql_query_result = sql_query_result.replace("'", '')
             return sql_query_result.replace('\n', ' ')
 
         return None
 
-    async def process_input(self, input_text: str) -> str:
+    async def process_input(self, question: str) -> str:
 
-        question = self.translator.translate_pt_to_en(input_text)
-        check_syntax = self.message_grammar.check_syntax(question)
-        if check_syntax is False:
+        question = self.translator.translate_pt_to_en(question)
+        check_syntax = (question == '--')
+        if check_syntax:
             raise HTTPException(status_code=400, detail=Messages.INVALID_INSTRUCTION)
 
         response_string = self.execute_python_script(self.PATH_SCRIPT, arguments=[question])

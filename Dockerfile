@@ -31,8 +31,6 @@ EXPOSE 22
 RUN python -m pip install --upgrade pip
 RUN pip install trio
 RUN pip install python-dotenv
-RUN pip install spacy
-RUN python -m spacy download en_core_web_sm
 RUN pip install pydevd-pycharm~=232.9559.58
 
 # install python dependencies

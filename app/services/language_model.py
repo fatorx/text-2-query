@@ -1,7 +1,6 @@
 import uuid
 from fastapi import HTTPException
 from starlette import status
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 from app.vendors.vanna_ai import VannaAI
 
